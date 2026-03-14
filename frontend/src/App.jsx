@@ -18,6 +18,7 @@ function App() {
         // Reset state
         setError(null);
         setData(null);
+        setContributors(null);
         setLoading(true);
 
         try {
