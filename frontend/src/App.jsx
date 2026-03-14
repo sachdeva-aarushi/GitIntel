@@ -87,6 +87,33 @@ function App() {
             {data && (
                 <div className="results-section">
                     <h2 className="results-title">
+                        {/* Summary Metrics */}
+                        {data.data.summary && (
+                            <div className="summary-cards">
+                                <div className="summary-card">
+                                    <h4>Total Commits</h4>
+                                    <p>{data.data.total_commits}</p>
+                                </div>
+
+                                <div className="summary-card">
+                                    <h4>Avg Commits / Day</h4>
+                                    <p>{data.data.summary.avg_commits_per_day}</p>
+                                </div>
+
+                                <div className="summary-card">
+                                    <h4>Std Dev</h4>
+                                    <p>{data.data.summary.std_dev_commits}</p>
+                                </div>
+
+                                <div className="summary-card">
+                                    <h4>Most Active Day</h4>
+                                    <p>
+                                        {data.data.summary.most_active_day.date}
+                                        ({data.data.summary.most_active_day.commits})
+                                    </p>
+                                </div>
+                            </div>
+                        )}
                         Results for {data.repository}
                     </h2>
 
