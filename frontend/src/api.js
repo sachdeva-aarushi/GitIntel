@@ -27,3 +27,15 @@ export const fetchContributors = async (owner, repo) => {
 
     return response.json();
 };
+
+export async function fetchRepoOverview(owner, repo) {
+    const response = await fetch(
+        `http://127.0.0.1:8000/repo/overview/${owner}/${repo}`
+    );
+
+    if (!response.ok) {
+        throw new Error("Failed to fetch repository overview");
+    }
+
+    return await response.json();
+}
