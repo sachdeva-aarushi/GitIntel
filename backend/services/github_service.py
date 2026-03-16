@@ -80,3 +80,35 @@ def get_contributors(owner: str, repo: str):
     response = requests.get(url)
     response.raise_for_status()
     return response.json()
+
+
+def get_repo_metadata(owner: str, repo: str):
+    url = f"{GITHUB_API_BASE}/repos/{owner}/{repo}"
+    response = requests.get(url)
+    response.raise_for_status()
+    return response.json()
+
+
+def get_pull_requests(owner: str, repo: str):
+    url = f"{GITHUB_API_BASE}/repos/{owner}/{repo}/pulls?state=all"
+    response = requests.get(url)
+    response.raise_for_status()
+    return response.json()
+
+def get_repo_languages(owner: str, repo: str):
+    url = f"{GITHUB_API_BASE}/repos/{owner}/{repo}/languages"
+    response = requests.get(url)
+    response.raise_for_status()
+    return response.json()
+
+def get_issues(owner: str, repo: str):
+    url = f"{GITHUB_API_BASE}/repos/{owner}/{repo}/issues?state=all"
+    response = requests.get(url)
+    response.raise_for_status()
+    return response.json()
+
+def get_repo_tree(owner: str, repo: str):
+    url = f"{GITHUB_API_BASE}/repos/{owner}/{repo}/git/trees/HEAD?recursive=1"
+    response = requests.get(url)
+    response.raise_for_status()
+    return response.json()

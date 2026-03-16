@@ -7,6 +7,8 @@ from services.github_service import get_commits, get_rate_limit, get_contributor
 from analysis.commit_analysis import analyze_commits
 from analysis.contributor_analysis import analyze_contributors
 
+from routers.overview_router import router as overview_router
+
 #Load environment variables
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
 
@@ -15,6 +17,9 @@ app = FastAPI(
     description="Analyzes commit activity and health metrics for public GitHub repositories.",
     version="1.0.0",
 )
+
+#Include routers
+app.include_router(overview_router)
 
 #Configure CORS to allow frontend requests
 app.add_middleware(
