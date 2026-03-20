@@ -33,3 +33,18 @@ def summarize_repository(metadata, languages, structure, pull_requests, issues):
         "total_pull_requests": len(pull_requests),
         "total_issues": len(issues)
     }
+
+def summarize_structure(tree_data):
+    files = 0
+    folders = 0
+
+    for item in tree_data.get("tree", []):
+        if item["type"] == "blob":
+            files += 1
+        elif item["type"] == "tree":
+            folders += 1
+
+    return {
+        "total_files": files,
+        "total_folders": folders
+    }

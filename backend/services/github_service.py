@@ -107,8 +107,11 @@ def get_issues(owner: str, repo: str):
     response.raise_for_status()
     return response.json()
 
+
 def get_repo_tree(owner: str, repo: str):
-    url = f"{GITHUB_API_BASE}/repos/{owner}/{repo}/git/trees/HEAD?recursive=1"
-    response = requests.get(url)
+    url = f"https://api.github.com/repos/{owner}/{repo}/git/trees/main"
+    params = {"recursive": 1}
+    response = requests.get(url, params=params)
     response.raise_for_status()
+
     return response.json()
