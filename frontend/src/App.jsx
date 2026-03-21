@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { fetchCommitData, fetchContributors, fetchRepoOverview } from './api';
+import { fetchCommitData, fetchContributors, fetchRepoOverview, fetchRepoStructure } from './api';
 import CommitsChart from './charts/CommitsChart';
 import ContributorsBarChart from "./charts/ContributorsBarChart";
 import LorenzCurveChart from "./charts/LorenzCurveChart";
