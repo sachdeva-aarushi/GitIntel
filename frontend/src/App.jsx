@@ -5,6 +5,7 @@ import ContributorsBarChart from "./charts/ContributorsBarChart";
 import LorenzCurveChart from "./charts/LorenzCurveChart";
 import WeekdayChart from "./charts/WeekDayChart";
 import OverviewCards from "./components/overview_cards";
+import RepoTree from "./components/repotree";
 
 function App() {
     const [owner, setOwner] = useState('');
@@ -14,6 +15,7 @@ function App() {
     const [error, setError] = useState(null);
     const [contributors, setContributors] = useState(null);
     const [overview, setOverview] = useState(null);
+    const [structure, setStructure] = useState(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -24,6 +26,7 @@ function App() {
         setContributors(null);
         setLoading(true);
         setOverview(null);
+        setStructure(null);
 
         try {
             const commitResult = await fetchCommitData(owner, repo);
@@ -34,6 +37,9 @@ function App() {
 
             const overviewResult = await fetchRepoOverview(owner, repo);
             setOverview(overviewResult);
+
+            const structureResult = await fetchRepoStructure(owner, repo);
+            setStructure(structureResult);
 
         } catch (err) {
             setError(err.message);
@@ -177,6 +183,11 @@ function App() {
                                 />
                             </div>
                         </>
+                    )}
+                    {structure && (
+                        <div className="chart-card">
+                            <RepoTree data={structure} />
+                        </div>
                     )}
 
                 </div>

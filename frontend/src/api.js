@@ -39,3 +39,14 @@ export async function fetchRepoOverview(owner, repo) {
 
     return await response.json();
 }
+export async function fetchRepoStructure(owner, repo) {
+    const response = await fetch(
+        `http://127.0.0.1:8000/repo/structure/${owner}/${repo}`
+    );
+
+    if (!response.ok) {
+        throw new Error("Failed to fetch repository structure");
+    }
+
+    return await response.json();
+}
