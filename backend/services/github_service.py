@@ -76,42 +76,50 @@ def get_rate_limit() -> Optional[Dict]:
         return None
 
 def get_contributors(owner: str, repo: str):
-    url = f"https://api.github.com/repos/{owner}/{repo}/contributors"
-    response = requests.get(url)
+    url = f"{GITHUB_API_BASE}/repos/{owner}/{repo}/contributors"
+    response = requests.get(url, headers=_get_headers())
     response.raise_for_status()
     return response.json()
 
 
 def get_repo_metadata(owner: str, repo: str):
     url = f"{GITHUB_API_BASE}/repos/{owner}/{repo}"
-    response = requests.get(url)
+    response = requests.get(url, headers=_get_headers())
     response.raise_for_status()
     return response.json()
 
 
 def get_pull_requests(owner: str, repo: str):
     url = f"{GITHUB_API_BASE}/repos/{owner}/{repo}/pulls?state=all"
-    response = requests.get(url)
+    response = requests.get(url, headers=_get_headers())
     response.raise_for_status()
     return response.json()
 
 def get_repo_languages(owner: str, repo: str):
     url = f"{GITHUB_API_BASE}/repos/{owner}/{repo}/languages"
-    response = requests.get(url)
+    response = requests.get(url, headers=_get_headers())
     response.raise_for_status()
     return response.json()
 
 def get_issues(owner: str, repo: str):
     url = f"{GITHUB_API_BASE}/repos/{owner}/{repo}/issues?state=all"
-    response = requests.get(url)
+    response = requests.get(url, headers=_get_headers())
     response.raise_for_status()
     return response.json()
 
 
 def get_repo_tree(owner: str, repo: str):
-    url = f"https://api.github.com/repos/{owner}/{repo}/git/trees/main"
+    repo_data = get_repo_metadata(owner, repo)
+    default_branch = repo_data.get("default_branch", "main")
+    url = f"{GITHUB_API_BASE}/repos/{owner}/{repo}/git/trees/{default_branch}"
     params = {"recursive": 1}
-    response = requests.get(url, params=params)
+    response = requests.get(url, params=params, headers=_get_headers())
     response.raise_for_status()
 
+    return response.json()
+
+def get_file_content(owner: str, repo: str, path: str):
+    url = f"{GITHUB_API_BASE}/repos/{owner}/{repo}/contents/{path}"
+    response = requests.get(url, headers=_get_headers())
+    response.raise_for_status()
     return response.json()

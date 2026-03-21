@@ -1,5 +1,6 @@
-from fastapi import APIRouter
-from services.github_service import get_repo_tree
+from fastapi import APIRouter,Query, HTTPException
+from services.github_service import get_repo_tree, get_file_content
+import requests
 from utils.helpers import build_tree_structure
 from analysis.evolution_analysis import summarize_structure
 
@@ -21,4 +22,17 @@ def get_structure(owner: str, repo: str):
         "total_files": structure["total_files"],
         "total_folders": structure["total_folders"],
         "tree": tree
+    }
+
+
+@router.get("/file/{owner}/{repo}")
+def get_file(owner: str, repo: str, path: str = Query(...)):
+
+    file_data = get_file_content(owner, repo, path)
+
+    return {
+        "name": file_data.get("name"),
+        "path": file_data.get("path"),
+        "content": file_data.get("content"),
+        "encoding": file_data.get("encoding")
     }

@@ -113,3 +113,4 @@ def contributors(owner: str, repo: str):
     raw_data = get_contributors(owner, repo)
     analyzed = analyze_contributors(raw_data)
     return analyzed
+
