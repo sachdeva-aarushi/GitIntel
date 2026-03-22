@@ -9,7 +9,7 @@ function Navbar({ owner, repo }) {
         <nav className="navbar">
             <div className="navbar-brand">
                 <NavLink to={`/${query}`} className="navbar-logo">
-                    🔍 Repo Analyzer
+                    Repo Analyzer
                 </NavLink>
             </div>
             <div className="navbar-links">
