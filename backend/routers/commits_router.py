@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from services.github_service import get_commits, get_commit_details
-from analysis.commit_analysis import analyze_commit_velocity, analyze_hot_files
+from services.github_service import get_commits
+from analysis.commit_analysis import analyze_commit_velocity
 
 router = APIRouter(tags=["Commits"])
 
@@ -22,14 +22,4 @@ def get_commit_velocity(owner: str, repo: str):
         "velocity": velocity
     }
 
-@router.get("/hot-files/{owner}/{repo}")
-def get_hot_files(owner: str, repo: str):
 
-    commits = get_commits(owner, repo)
-
-    hot_files = analyze_hot_files(owner, repo, commits)
-
-    return {
-        "repository": f"{owner}/{repo}",
-        "hot_files": hot_files
-    }

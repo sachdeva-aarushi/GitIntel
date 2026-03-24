@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { fetchCommitData, fetchContributors, fetchRepoOverview, fetchHotFiles } from '../api';
+import { fetchCommitData, fetchContributors, fetchRepoOverview } from '../api';
 import CommitsChart from '../charts/CommitsChart';
 import ContributorsBarChart from '../charts/ContributorsBarChart';
 import LorenzCurveChart from '../charts/LorenzCurveChart';
@@ -9,7 +9,7 @@ import OverviewCards from '../components/overview_cards';
 import Navbar from '../components/Navbar';
 import { fetchCommitVelocity } from "../api";
 import VelocityChart from "../charts/velocitycharts";
-import HotFilesChart from "../charts/hotefileschart";
+
 
 function Dashboard() {
     const [searchParams] = useSearchParams();
@@ -23,7 +23,7 @@ function Dashboard() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [velocity, setVelocity] = useState(null);
-    const [hotFiles, setHotFiles] = useState(null);
+    
 
     useEffect(() => {
         if (!owner || !repo) return;
@@ -34,7 +34,7 @@ function Dashboard() {
             setData(null);
             setContributors(null);
             setOverview(null);
-            setHotFiles(null);
+            
 
             try {
                 const [commitResult, contributorResult, overviewResult] = await Promise.all([
@@ -47,8 +47,6 @@ function Dashboard() {
                 setData(commitResult);
                 setContributors(contributorResult);
                 setOverview(overviewResult);
-                const hot = await fetchHotFiles(owner, repo);
-                setHotFiles(hot.hot_files);
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -160,12 +158,7 @@ function Dashboard() {
                             <VelocityChart data={velocity} />
                         </div>
                     )}
-                    {hotFiles && (
-                        <div className="chart-card">
-                            <h3>Hot Files</h3>
-                            <HotFilesChart data={hotFiles} />
-                        </div>
-                    )}
+
                 </div>
             )}
         </div>
