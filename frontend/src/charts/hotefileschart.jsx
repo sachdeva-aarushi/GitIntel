@@ -19,7 +19,8 @@ ChartJS.register(
 
 export default function HotFilesChart({ data }) {
 
-    if (!data || !data.files) return null;
+    // Check if data exists and has the required properties with actual values
+    if (!data || !data.files || data.files.length === 0) return null;
 
     const chartData = {
         labels: data.files,
