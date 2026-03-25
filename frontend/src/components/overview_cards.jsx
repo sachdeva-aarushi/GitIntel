@@ -27,11 +27,6 @@ export default function OverviewCards({ data }) {
                 <h2>{data.total_pull_requests}</h2>
             </div>
 
-            <div className="card">
-                Issues
-                <h2>{data.total_issues}</h2>
-            </div>
-
         </div>
     );
 }

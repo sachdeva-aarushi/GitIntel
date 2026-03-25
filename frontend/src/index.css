@@ -88,7 +88,7 @@ body {
 .summary-card {
     background: #ffffff;
     border-radius: 14px;
-    padding: 20px;
+    padding: 12px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.05);
     border: 1px solid #eef2f7;
     transition: 0.25s;
@@ -104,28 +104,56 @@ body {
 /* ===== Summary Grid ===== */
 .summary-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(5, 1fr); 
+    gap: 14px;
     margin: 30px 0;
 }
 
+.summary-card {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100px;
+}
+
 .summary-card h4 {
-    font-size: 13px;
+    font-size: 12px;
     color: #64748b;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .summary-card p {
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 700;
     color: #1e293b;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 /* ===== Overview Grid ===== */
 .overview-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+    margin-bottom: 30px;
+}
+
+.overview-grid .card {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100px;
+}
+
+.overview-grid .card h2 {
+    font-size: 1.3rem;
+    margin-top: 6px;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 /* ===== Chart Card Title ===== */
@@ -200,4 +228,45 @@ body {
 /* ===== Results ===== */
 .results-section {
     margin-top: 10px;
+}
+
+/* ===== Overview Section ===== */
+.overview-section {
+    grid-column: 1 / -1;
+}
+
+/* ===== Chart Card Grid ===== */
+.chart-card {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 1400px) {
+    .overview-grid,
+    .summary-cards {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 1024px) {
+    .overview-grid,
+    .summary-cards {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .overview-grid,
+    .summary-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .overview-grid,
+    .summary-cards {
+        grid-template-columns: 1fr;
+    }
 }

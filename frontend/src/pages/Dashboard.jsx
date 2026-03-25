@@ -100,6 +100,12 @@ function Dashboard() {
                                     {' '}({data.data.summary.most_active_day.commits})
                                 </p>
                             </div>
+                            {overview && (
+                                <div className="summary-card">
+                                    <h4>Issues</h4>
+                                    <p>{overview.total_issues}</p>
+                                </div>
+                            )}
 
                             {overview && (
                                 <div className="overview-section">
