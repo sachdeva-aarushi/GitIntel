@@ -164,6 +164,43 @@ def analyze_health(commits, contributors, prs, issues):
             "status": "high"
         })
 
+    # Create timeline data
+    df["month"] = df["date"].dt.to_period("M")
+    monthly_commits = df.groupby("month").size()
+
+    timeline = []
+    for m, count in monthly_commits.items():
+        timeline.append({"month": str(m), "commits": int(count)})
+
+    # Group issues and PRs by month
+    issues_opened = {}
+    issues_closed = {}
+    prs_merged = {}
+    
+    for issue in issues:
+        try:
+            if issue.get("created_at"):
+                month = pd.to_datetime(issue["created_at"]).strftime("%b")
+                issues_opened[month] = issues_opened.get(month, 0) + 1
+            if issue.get("closed_at"):
+                month = pd.to_datetime(issue["closed_at"]).strftime("%b")
+                issues_closed[month] = issues_closed.get(month, 0) + 1
+        except:
+            continue
+    
+    for pr in prs:
+        try:
+            if pr.get("merged_at"):
+                month = pd.to_datetime(pr["merged_at"]).strftime("%b")
+                prs_merged[month] = prs_merged.get(month, 0) + 1
+        except:
+            continue
+
+    issue_pr_stats = {
+        "opened": issues_opened,
+        "closed": issues_closed,
+        "merged": prs_merged
+    }
 
     return {
         "score": final_score,
@@ -178,5 +215,7 @@ def analyze_health(commits, contributors, prs, issues):
 
         "dimension_scores": dimension_scores,
         "health_distribution": health_distribution,
-        "risk_signals": risks
+        "risk_signals": risks,
+        "timeline": timeline,
+        "issue_pr_stats": issue_pr_stats
     }

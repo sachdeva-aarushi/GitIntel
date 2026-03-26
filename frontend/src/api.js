@@ -75,3 +75,14 @@ export async function fetchCommitVelocity(owner, repo) {
     return await response.json();
 }
 
+export async function fetchHealth(owner, repo) {
+    const res = await fetch(
+        `${API_BASE_URL}/repo/health/${owner}/${repo}`
+    );
+
+    if (!res.ok) throw new Error("Failed to fetch health");
+
+    return await res.json();
+}
+
+
