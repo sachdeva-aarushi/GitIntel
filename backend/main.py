@@ -10,6 +10,7 @@ from analysis.commit_analysis import analyze_commits
 from analysis.contributor_analysis import analyze_contributors
 
 from routers.overview_router import router as overview_router
+from routers.health_router import router as health_router
 
 #Load environment variables
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
@@ -24,6 +25,7 @@ app = FastAPI(
 app.include_router(overview_router)
 app.include_router(structure_router)
 app.include_router(commits_router)
+app.include_router(health_router)
 
 #Configure CORS to allow frontend requests
 app.add_middleware(
@@ -115,4 +117,5 @@ def contributors(owner: str, repo: str):
     raw_data = get_contributors(owner, repo)
     analyzed = analyze_contributors(raw_data)
     return analyzed
+
 

@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 def normalize(value, min_val, max_val):
@@ -10,10 +10,6 @@ def normalize(value, min_val, max_val):
 
 
 def analyze_health(commits, contributors, prs, issues):
-
-    # =========================
-    # 1. COMMIT ACTIVITY
-    # =========================
     commit_dates = []
 
     for c in commits:
@@ -24,7 +20,31 @@ def analyze_health(commits, contributors, prs, issues):
             continue
 
     if not commit_dates:
-        return {}
+        return {
+            "score": 0,
+            "status": "Risky",
+            "summary": {
+                "last_commit_days": None,
+                "contributors": 0,
+                "issue_close_rate": 0,
+                "avg_pr_merge_time": 0
+            },
+            "dimension_scores": {
+                "commit_frequency": 0,
+                "recency": 0,
+                "contributors": 0,
+                "pr_speed": 0,
+                "issues": 0
+            },
+            "health_distribution": {
+                "maintenance": 0,
+                "stability": 0,
+                "contributors": 0,
+                "security": 0,
+                "efficiency": 0
+            },
+            "risk_signals": [{"name": "No commit history", "status": "high"}]
+        }
 
     df = pd.DataFrame({"date": commit_dates})
 
@@ -34,38 +54,27 @@ def analyze_health(commits, contributors, prs, issues):
     max_daily = daily_counts.max()
     std_daily = daily_counts.std()
 
-    # normalized relative to repo behavior
+    
     commit_score = normalize(avg_daily, 0, max_daily)
-
-
-    # =========================
-    # 2. RECENCY (DECAY MODEL)
-    # =========================
     last_commit = max(commit_dates)
-    days_since = (datetime.utcnow() - last_commit).days
-
-    # exponential decay instead of linear penalty
+    days_since = (datetime.now(timezone.utc) - last_commit).days
     recency_score = 100 * np.exp(-days_since / 30)
-
-
-    # =========================
-    # 3. CONTRIBUTORS (INEQUALITY BASED)
-    # =========================
     contrib_df = pd.DataFrame(contributors)
 
-    total = contrib_df["contributions"].sum()
-    contrib_df["pct"] = contrib_df["contributions"] / total * 100
+    if contrib_df.empty or len(contrib_df) == 0:
+        
+        contributor_score = 0
+        top_contributor_pct = 0
+    else:
+        total = contrib_df["contributions"].sum()
+        contrib_df["pct"] = contrib_df["contributions"] / total * 100
 
-    # inequality measure
-    top_contributor_pct = contrib_df.iloc[0]["pct"]
+        top_contributor_pct = contrib_df.iloc[0]["pct"]
 
-    contributor_score = max(0, 100 - top_contributor_pct)
+        contributor_score = max(0, 100 - top_contributor_pct)
 
-
-    # =========================
-    # 4. PR MERGE SPEED
-    # =========================
     merge_times = []
+    avg_merge = 0
 
     for pr in prs:
         if pr.get("merged_at"):
@@ -77,17 +86,11 @@ def analyze_health(commits, contributors, prs, issues):
     if merge_times:
         avg_merge = np.mean(merge_times)
 
-        # normalize within observed range
         pr_score = normalize(avg_merge, min(merge_times), max(merge_times))
-        pr_score = 100 - pr_score  # lower time = better
+        pr_score = 100 - pr_score 
     else:
-        avg_merge = 0
         pr_score = 50
 
-
-    # =========================
-    # 5. ISSUE HEALTH
-    # =========================
     open_issues = sum(1 for i in issues if i["state"] == "open")
     closed_issues = sum(1 for i in issues if i["state"] == "closed")
 
@@ -98,15 +101,10 @@ def analyze_health(commits, contributors, prs, issues):
     else:
         close_rate = 0
 
-    # penalize backlog
     backlog_penalty = min(open_issues * 0.5, 50)
 
     issue_score = max(0, close_rate - backlog_penalty)
 
-
-    # =========================
-    # FINAL SCORE (BALANCED)
-    # =========================
     scores = [
         commit_score,
         recency_score,
@@ -117,10 +115,6 @@ def analyze_health(commits, contributors, prs, issues):
 
     final_score = round(np.mean(scores), 2)
 
-
-    # =========================
-    # STATUS
-    # =========================
     if final_score >= 75:
         status = "Healthy"
     elif final_score >= 50:
