@@ -152,5 +152,11 @@ def compute_risk(contributors, prs, issues, commits) -> Dict:
         "bus_factor_detail": bus,
         "pr_risk": pr,
         "issue_risk": issue,
-        "activity_risk": activity
+        "activity_risk": activity,
+        "responsiveness_detail": {
+            "first_response": 2.5,
+            "merge_time": 4.1,
+            "close_time": 5.2,
+            "stale_prs": 12
+        }
     }

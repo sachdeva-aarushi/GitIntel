@@ -84,4 +84,9 @@ export async function fetchHealth(owner, repo) {
     return await res.json();
 }
 
+export async function getRisk(owner, repo) {
+    const response = await fetch(`${API_BASE_URL}/risk/${owner}/${repo}`);
+    if (!response.ok) throw new Error("Failed to fetch risk");
+    return await response.json();
+}
 

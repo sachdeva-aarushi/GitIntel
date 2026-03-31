@@ -27,7 +27,7 @@ app.include_router(overview_router)
 app.include_router(structure_router)
 app.include_router(commits_router)
 app.include_router(health_router)
-app.include_router(risk_router)
+app.include_router(risk_router.router)
 
 #Configure CORS to allow frontend requests
 app.add_middleware(
