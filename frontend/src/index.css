@@ -10,8 +10,8 @@
 /* ===== Base ===== */
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: #f4f6fb;
-    color: #1e293b;
+    background: #000000;
+    color: #f8fafc;
     line-height: 1.6;
 }
 
@@ -28,16 +28,16 @@ body {
     font-weight: 700;
     text-align: center;
     margin-bottom: 6px;
-    color: #1e293b;
+    color: #ffffff;
 }
 
 .app-title span {
-    color: #6366f1;
+    color: #06b6d4;
 }
 
 .app-subtitle {
     text-align: center;
-    color: #64748b;
+    color: #ffffff;
     font-size: 0.95rem;
     margin-bottom: 32px;
 }
@@ -89,22 +89,23 @@ body {
     background: #ffffff;
     border-radius: 14px;
     padding: 12px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
     border: 1px solid #eef2f7;
     transition: 0.25s;
+    color: #1e293b;
 }
 
 .chart-card:hover,
 .card:hover,
 .summary-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
 }
 
 /* ===== Summary Grid ===== */
 .summary-cards {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); 
+    grid-template-columns: repeat(5, 1fr);
     gap: 14px;
     margin: 30px 0;
 }
@@ -242,8 +243,16 @@ body {
     padding: 20px;
 }
 
+.dashboard-graphs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
 /* ===== Responsive Design ===== */
 @media (max-width: 1400px) {
+
     .overview-grid,
     .summary-cards {
         grid-template-columns: repeat(4, 1fr);
@@ -251,13 +260,19 @@ body {
 }
 
 @media (max-width: 1024px) {
+
     .overview-grid,
     .summary-cards {
         grid-template-columns: repeat(3, 1fr);
     }
+
+    .dashboard-graphs-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 768px) {
+
     .overview-grid,
     .summary-cards {
         grid-template-columns: repeat(2, 1fr);
@@ -265,6 +280,7 @@ body {
 }
 
 @media (max-width: 480px) {
+
     .overview-grid,
     .summary-cards {
         grid-template-columns: 1fr;
@@ -275,7 +291,7 @@ body {
 .section-title {
     margin: 20px 0 10px;
     font-weight: 600;
-    color: #1e293b;
+    color: #f8fafc;
 }
 
 /* ===== BADGES ===== */
@@ -314,7 +330,8 @@ body {
     background: #fff;
     padding: 16px;
     border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+    color: #1e293b;
 }
 
 .health-card h4 {
@@ -370,6 +387,7 @@ body {
 .risk-item.low {
     border-left: 4px solid #16a34a;
 }
+
 /* ===== VISUAL GRID ===== */
 .health-visual-grid {
     display: grid;
@@ -383,7 +401,8 @@ body {
     background: #fff;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+    color: #1e293b;
 }
 
 /* ===== DIMENSION BARS ===== */
@@ -474,7 +493,7 @@ body {
 
 /* ===== RISK PAGE STYLES ===== */
 .risk-page-container {
-    background: #fdfbf7;
+    background: #000000;
     padding: 32px;
     display: flex;
     flex-direction: column;
@@ -496,11 +515,20 @@ body {
     border-top: 4px solid #e2e8f0;
     padding: 16px;
     transition: transform 0.2s, box-shadow 0.2s;
+    color: #1e293b;
 }
 
-.risk-summary-card.border-red { border-top-color: #ef4444; }
-.risk-summary-card.border-orange { border-top-color: #f97316; }
-.risk-summary-card.border-green { border-top-color: #10b981; }
+.risk-summary-card.border-red {
+    border-top-color: #ef4444;
+}
+
+.risk-summary-card.border-orange {
+    border-top-color: #f97316;
+}
+
+.risk-summary-card.border-green {
+    border-top-color: #10b981;
+}
 
 .risk-summary-card:hover {
     transform: translateY(-2px);
@@ -567,6 +595,7 @@ body {
     padding: 24px;
     display: flex;
     flex-direction: column;
+    color: #1e293b;
 }
 
 .risk-card-header {
@@ -614,7 +643,7 @@ body {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     flex-shrink: 0;
 }
 
@@ -652,20 +681,59 @@ body {
     margin-top: 4px;
 }
 
-.border-red { border-color: #ef4444; }
-.text-red { color: #dc2626; }
-.bg-red-light { background: #fef2f2; color: #7f1d1d; border-color: #fecaca; }
-.dot-red { background: #ef4444; }
+.border-red {
+    border-color: #ef4444;
+}
 
-.border-orange { border-color: #f97316; }
-.text-orange { color: #ea580c; }
-.bg-orange-light { background: #fff7ed; color: #7c2d12; border-color: #ffedd5; }
-.dot-orange { background: #fb923c; }
+.text-red {
+    color: #dc2626;
+}
 
-.border-green { border-color: #10b981; }
-.text-green { color: #059669; }
-.bg-green-light { background: #ecfdf5; color: #064e3b; border-color: #d1fae5; }
-.dot-green { background: #34d399; }
+.bg-red-light {
+    background: #fef2f2;
+    color: #7f1d1d;
+    border-color: #fecaca;
+}
+
+.dot-red {
+    background: #ef4444;
+}
+
+.border-orange {
+    border-color: #f97316;
+}
+
+.text-orange {
+    color: #ea580c;
+}
+
+.bg-orange-light {
+    background: #fff7ed;
+    color: #7c2d12;
+    border-color: #ffedd5;
+}
+
+.dot-orange {
+    background: #fb923c;
+}
+
+.border-green {
+    border-color: #10b981;
+}
+
+.text-green {
+    color: #059669;
+}
+
+.bg-green-light {
+    background: #ecfdf5;
+    color: #064e3b;
+    border-color: #d1fae5;
+}
+
+.dot-green {
+    background: #34d399;
+}
 
 .risk-table {
     width: 100%;

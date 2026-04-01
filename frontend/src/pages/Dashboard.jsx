@@ -5,7 +5,6 @@ import CommitsChart from '../charts/CommitsChart';
 import ContributorsBarChart from '../charts/ContributorsBarChart';
 import LorenzCurveChart from '../charts/LorenzCurveChart';
 import WeekdayChart from '../charts/WeekDayChart';
-import OverviewCards from '../components/overview_cards';
 import Navbar from '../components/Navbar';
 import { fetchCommitVelocity } from "../api";
 import VelocityChart from "../charts/velocitycharts";
@@ -81,90 +80,104 @@ function Dashboard() {
                     {/* Summary metric cards */}
                     {data.data.summary && (
                         <div className="summary-cards">
-                            <div className="summary-card">
-                                <h4>Total Commits</h4>
-                                <p>{data.data.total_commits}</p>
+                            <div className="risk-summary-card border-blue">
+                                <div className="risk-summary-title">Avg Commits / Day</div>
+                                <div className="risk-summary-level">{data.data.summary.avg_commits_per_day}</div>
                             </div>
-                            <div className="summary-card">
-                                <h4>Avg Commits / Day</h4>
-                                <p>{data.data.summary.avg_commits_per_day}</p>
-                            </div>
-                            <div className="summary-card">
-                                <h4>Std Dev</h4>
-                                <p>{data.data.summary.std_dev_commits}</p>
-                            </div>
-                            <div className="summary-card">
-                                <h4>Most Active Day</h4>
-                                <p>
-                                    {data.data.summary.most_active_day.date}
-                                    {' '}({data.data.summary.most_active_day.commits})
-                                </p>
+                            <div className="risk-summary-card border-orange">
+                                <div className="risk-summary-title">Commit Std Dev</div>
+                                <div className="risk-summary-level">{data.data.summary.std_dev_commits}</div>
                             </div>
                             {overview && (
-                                <div className="summary-card">
-                                    <h4>Issues</h4>
-                                    <p>{overview.total_issues}</p>
-                                </div>
-                            )}
-
-                            {overview && (
-                                <div className="overview-section">
-                                    <OverviewCards data={overview} />
-                                </div>
+                                <>
+                                    <div className="risk-summary-card border-green">
+                                        <div className="risk-summary-title">Stars</div>
+                                        <div className="risk-summary-level">{overview.stars}</div>
+                                    </div>
+                                    <div className="risk-summary-card border-blue">
+                                        <div className="risk-summary-title">Files</div>
+                                        <div className="risk-summary-level">{overview.total_files}</div>
+                                    </div>
+                                    <div className="risk-summary-card border-orange">
+                                        <div className="risk-summary-title">Folders</div>
+                                        <div className="risk-summary-level">{overview.total_folders}</div>
+                                    </div>
+                                </>
                             )}
                         </div>
                     )}
 
-                    {/* Commit activity chart */}
-                    <div className="chart-card">
-                        <CommitsChart
-                            dates={data.data.dates}
-                            counts={data.data.counts}
-                            repository={data.repository}
-                        />
+                    <div className="dashboard-graphs-grid">
+                        <div className="risk-card">
+                            <div className="risk-card-header">
+                                <div className="risk-card-title-container">Commit Activity</div>
+                            </div>
+                            <div style={{ marginTop: '16px' }}>
+                                <CommitsChart
+                                    dates={data.data.dates}
+                                    counts={data.data.counts}
+                                    repository={data.repository}
+                                />
+                            </div>
+                        </div>
+
+                        {data.data.summary && (
+                            <div className="risk-card">
+                                <div className="risk-card-header">
+                                    <div className="risk-card-title-container">Weekly Commit Distribution</div>
+                                </div>
+                                <div style={{ marginTop: '16px' }}>
+                                    <WeekdayChart data={data.data.summary.weekday_distribution} />
+                                </div>
+                            </div>
+                        )}
+
+                        {contributors && (
+                            <div className="risk-card">
+                                <div className="risk-card-header">
+                                    <div className="risk-card-title-container">Contributor Distribution</div>
+                                </div>
+                                <div style={{ marginTop: '16px' }}>
+                                    <ContributorsBarChart data={contributors.contributors} />
+                                    <div style={{ marginTop: '16px', fontSize: '14px', color: '#64748b' }}>
+                                        <p><strong>Top Contributor %:</strong> {contributors.top_contributor_percentage}%</p>
+                                        <p><strong>Bus Factor:</strong> {contributors.bus_factor}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {velocity && (
+                            <div className="risk-card">
+                                <div className="risk-card-header">
+                                    <div className="risk-card-title-container">Commit Velocity (Weekly)</div>
+                                </div>
+                                <div style={{ marginTop: '16px' }}>
+                                    <VelocityChart data={velocity} />
+                                </div>
+                            </div>
+                        )}
                     </div>
 
-                    {/* Weekday distribution */}
-                    {data.data.summary && (
-                        <div className="chart-card">
-                            <h3>Weekly Commit Distribution</h3>
-                            <WeekdayChart data={data.data.summary.weekday_distribution} />
+                    {/* Lorenz Curve at the bottom */}
+                    {contributors && (
+                        <div className="risk-card" style={{ marginTop: '24px' }}>
+                            <div className="risk-card-header">
+                                <div className="risk-card-title-container">Contribution Inequality (Lorenz Curve)</div>
+                            </div>
+                            <div style={{ marginTop: '16px' }}>
+                                <LorenzCurveChart data={contributors.lorenz_curve} />
+                            </div>
                         </div>
                     )}
 
                     {/* Raw JSON toggle */}
-                    <details className="json-toggle">
+                    <details className="json-toggle" style={{ marginTop: '40px' }}>
                         <summary>View Raw JSON Data</summary>
                         <pre className="json-pre">
                             {JSON.stringify(data, null, 2)}
                         </pre>
                     </details>
-
-                    {/* Contributors */}
-                    {contributors && (
-                        <>
-                            <div className="chart-card">
-                                <h3>Contributor Distribution</h3>
-                                <ContributorsBarChart data={contributors.contributors} />
-                                <div style={{ marginTop: '10px' }}>
-                                    <p><strong>Top Contributor %:</strong> {contributors.top_contributor_percentage}%</p>
-                                    <p><strong>Bus Factor:</strong> {contributors.bus_factor}</p>
-                                </div>
-                            </div>
-
-                            <div className="chart-card" style={{ marginTop: '30px' }}>
-                                <h3>Contribution Inequality (Lorenz Curve)</h3>
-                                <LorenzCurveChart data={contributors.lorenz_curve} />
-                            </div>
-                        </>
-                    )}
-                    {velocity && (
-                        <div className="chart-card">
-                            <h3>Commit Velocity (Weekly)</h3>
-                            <VelocityChart data={velocity} />
-                        </div>
-                    )}
-
                 </div>
             )}
         </div>

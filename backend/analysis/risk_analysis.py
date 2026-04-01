@@ -1,5 +1,31 @@
 from typing import Dict, List
+from datetime import datetime, timezone, timedelta
 from analysis.contributor_analysis import analyze_contributors
+
+def get_trend(items: List[Dict]) -> List[int]:
+    now = datetime.now(timezone.utc)
+    trend = []
+    
+    for weeks_ago in [3, 2, 1, 0]:
+        t = now - timedelta(weeks=weeks_ago)
+        count = 0
+        for item in items:
+            try:
+                created_at_str = item.get("created_at")
+                if not created_at_str: continue
+                # Handle github's ISO 8601 string
+                created_at = datetime.strptime(created_at_str, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+                if created_at > t: continue
+                
+                closed_at_str = item.get("closed_at")
+                if closed_at_str:
+                    closed_at = datetime.strptime(closed_at_str, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+                    if closed_at <= t: continue
+                count += 1
+            except Exception:
+                pass
+        trend.append(count)
+    return trend
 
 
 def get_level(score: float) -> str:
@@ -64,17 +90,24 @@ def compute_pr_risk(prs: List[Dict]) -> Dict:
     insights = []
     if open_count > 100:
         insights.append(f"{open_count} open PRs — high backlog")
-    if merge_ratio < 0.5:
-        insights.append("Merge rate is low")
-    if len(open_prs) > 0:
-        insights.append(f"{len(open_prs)} PRs pending review")
+    elif open_count > 0:
+        insights.append(f"{open_count} open PRs")
+
+    if total_prs > 0:
+        if merge_ratio < 0.5:
+            insights.append(f"Low merge rate ({int(merge_ratio*100)}%) — check for stalled PRs")
+        elif merge_ratio >= 0.8:
+            insights.append(f"Good merge rate ({int(merge_ratio*100)}%)")
+
+    trend = get_trend(prs)
 
     return {
         "level": get_level(score),
         "score": score,
         "open_prs": open_count,
         "merge_ratio": round(merge_ratio, 2),
-        "insights": insights
+        "insights": insights,
+        "trend": trend
     }
 
 
@@ -109,15 +142,24 @@ def compute_issue_risk(issues: List[Dict]) -> Dict:
     insights = []
     if open_count > 200:
         insights.append(f"{open_count} open issues — growing backlog")
-    if close_ratio < 0.6:
-        insights.append("Issue resolution rate is low")
+    elif open_count > 0:
+        insights.append(f"{open_count} open issues")
+        
+    if total_issues > 0:
+        if close_ratio < 0.6:
+            insights.append(f"Low resolution rate ({int(close_ratio*100)}%)")
+        elif close_ratio > 0.8:
+            insights.append(f"Good resolution rate ({int(close_ratio*100)}%)")
+
+    trend = get_trend(issues)
 
     return {
         "level": get_level(score),
         "score": score,
         "open_issues": open_count,
         "close_ratio": round(close_ratio, 2),
-        "insights": insights
+        "insights": insights,
+        "trend": trend
     }
 
 
