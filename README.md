@@ -1,225 +1,170 @@
-# GitHub Repo Health Analyzer
+# GitHub Repository Health Analyzer
 
-A full-stack web application that analyzes GitHub repository health by visualizing commit activity over time. Built with FastAPI (backend) and React (frontend), this tool helps developers understand repository engagement patterns.
+<p align="center">
+  <em>An AI-powered intelligence and health analysis platform for GitHub repositories.</em>
+</p>
 
-## 🎯 Features
+## 🚀 Overview
 
-- **GitHub Integration**: Fetches real-time commit data from any public GitHub repository
-- **Data Analysis**: Uses pandas to process and aggregate commit data by day
-- **Interactive Visualization**: Displays commit activity as an interactive line chart using Chart.js
-- **Error Handling**: Graceful handling of invalid repositories and API errors
-- **Responsive UI**: Clean, minimal interface built with React and Vite
+The **GitHub Repository Health Analyzer** is an advanced full-stack platform designed to extract, analyze, and narrate the operational health, maintainability, and risk profile of open-source repositories. 
 
-## 🏗️ Architecture
+Going beyond standard vanity metrics (stars and forks), this platform leverages a deterministic analytics engine to compute concrete health scores, evaluate contributor bus factors, analyze workload distributions, and track repository evolution. An integrated, modular AI layer then interprets these complex metrics to provide actionable, architect-level insights and recommendations.
 
-### Backend (FastAPI + Python)
-- **`main.py`**: FastAPI application with CORS-enabled REST API endpoints
-- **`github_api.py`**: GitHub REST API client for fetching commit data
-- **`analysis.py`**: Pandas-based commit data processing and aggregation
-- **Tech Stack**: FastAPI, Uvicorn, Requests, Pandas
+**Key Differentiation:** This is *not* a generic codebase chatbot. The architecture strictly separates deterministic quantitative analysis from qualitative LLM interpretation, ensuring that the AI layer acts as an intelligence synthesizer rather than a black-box analyzer.
 
-### Frontend (React + Vite)
-- **`App.jsx`**: Main application component with repository input form
-- **`CommitsChart.jsx`**: Chart.js line chart visualization component
-- **`api.js`**: API client for backend communication
-- **Tech Stack**: React 18, Vite 5, Chart.js, react-chartjs-2
+## ✨ Core Features
 
-### Data Flow
+* **Deterministic Health Scoring:** Computes holistic repository health based on commit frequency, PR velocity, issue resolution rates, and recency.
+* **Contributor Risk Assessment:** Calculates the "bus factor" and visualizes workload distribution using Lorenz curves to identify over-reliance on single developers.
+* **Evolution & Structure Tracking:** Analyzes repository tree structures and language composition to gauge architectural complexity.
+* **AI-Powered Insights Narration:** Synthesizes raw metrics into human-readable, architect-level narratives and actionable recommendations.
+* **High-Performance Dashboard:** Interactive, real-time visualizations powered by Chart.js.
 
-```
-User Input (owner/repo)
-    ↓
-React Frontend (Form Submission)
-    ↓
-API Request → Backend /commits/{owner}/{repo}
-    ↓
-GitHub API Client (fetch commits)
-    ↓
-Pandas Analysis (aggregate by date)
-    ↓
-JSON Response (dates + counts)
-    ↓
-Chart.js Visualization
-    ↓
-Display to User
-```
+## 🛠 Tech Stack
 
-## 📋 Prerequisites
+### Frontend Architecture
+* **Framework:** React.js
+* **Visualizations:** Chart.js for dynamic, interactive data representation
+* **Styling:** Custom CSS3 with a focus on modern, responsive design principles
 
-- **Python 3.8+** for backend
-- **Node.js 16+** and npm for frontend
-- Git for version control
+### Backend Architecture
+* **Framework:** FastAPI (Python)
+* **Server:** Uvicorn (ASGI)
+* **Data Validation:** Pydantic
+* **Analysis Engine:** Custom pandas-based deterministic calculation pipelines
+* **External APIs:** GitHub REST API
 
-## 🚀 Installation & Setup
+### AI Infrastructure
+* **Providers:** Groq API (Primary), Ollama Support (Local fallback)
+* **Integration:** OpenAI-compatible inference architecture
+* **Engineering:** Custom context-building engine, externalized prompt templates, token-aware truncation
 
-### 1. Clone the Repository
+## 📐 System Architecture
 
-```bash
-git clone https://github.com/sachdeva-aarushi/github-repo-health-analyzer.git
-cd github-repo-health-analyzer
-```
+The system is designed around a **Modular Service-Oriented Backend** emphasizing separation of concerns, scalability, and maintainability.
 
-### 2. Backend Setup
+### Request Flow & AI Pipeline
 
-```bash
-# Navigate to backend directory
-cd backend
-
-# Install Python dependencies
-pip install -r requirements.txt
-
-# Run the FastAPI server
-uvicorn main:app --reload
+```mermaid
+graph TD
+    A[Client Request] --> B[FastAPI Thin Routers]
+    B --> C[GitHub API Service]
+    C --> D[Raw Repository Data]
+    D --> E[Deterministic Analysis Engine]
+    E -->|Computes| E1[Health Score]
+    E -->|Computes| E2[Risk Assessment]
+    E -->|Computes| E3[Contributor Stats]
+    
+    E1 & E2 & E3 --> F[Structured Intelligence]
+    F -->|Render| F1[React Frontend Dashboard]
+    
+    F --> G[AI Context Builder]
+    G -->|Compress & Sanitize| H[Prompt Layer]
+    H --> I[LLM Provider Abstraction]
+    I --> J[Groq / Local LLM]
+    J --> K[Narrated Architectural Insights]
+    K --> F1
 ```
 
-The backend will run at **http://localhost:8000**
+### Engineering Decisions & Design Philosophy
 
-### 3. Frontend Setup
+1. **Thin Routers & Fat Services:** API endpoints (routers) handle strictly HTTP request/response validation. All business logic, GitHub API communication, and data transformations are encapsulated within the `services/` and `analysis/` layers.
+2. **Deterministic Source of Truth:** The `analysis/` engine calculates verifiable metrics (e.g., merge ratios, standard deviations of commit frequencies). The AI layer *never* calculates metrics; it only interprets them. This prevents LLM hallucinations in critical data points.
+3. **Provider Abstraction Pattern:** The AI layer communicates through an `llm_service` abstraction. Switching between Groq, OpenAI, or a local Ollama model requires zero changes to the business logic, only a change in environment variables.
+4. **Token-Aware Context Building:** Sending entire codebases to an LLM is inefficient and error-prone. The `context_builder.py` aggregates and compresses the outputs of the deterministic engine, ensuring the LLM receives high-signal, low-noise context while strictly adhering to token budgets.
+5. **Externalized Prompts:** Prompts are stored as `.txt` templates, decoupled from Python code. This allows prompt engineers to iterate independently of backend deployment cycles.
 
-```bash
-# Navigate to frontend directory (from project root)
-cd frontend
+## 📁 Repository Structure
 
-# Install Node.js dependencies
-npm install
-
-# Run the development server
-npm run dev
-```
-
-The frontend will run at **http://localhost:3000**
-
-## 🎮 Usage
-
-1. Open your browser and navigate to **http://localhost:3000**
-2. Enter a repository owner (e.g., `facebook`)
-3. Enter a repository name (e.g., `react`)
-4. Click **Analyze** to fetch and visualize commit data
-5. View the interactive commit activity chart
-6. Optionally expand "View Raw JSON Data" to see the underlying data
-
-### Example Repositories to Try
-
-- `facebook/react` - React JavaScript library
-- `microsoft/vscode` - Visual Studio Code
-- `torvalds/linux` - Linux kernel
-- `tensorflow/tensorflow` - TensorFlow ML library
-
-## 📊 API Endpoints
-
-### Backend REST API
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/` | GET | Health check endpoint |
-| `/test/{owner}/{repo}` | GET | Get basic repo info and commit count |
-| `/commits/{owner}/{repo}` | GET | Get analyzed commit data for visualization |
-
-### Response Format
-
-**GET /commits/{owner}/{repo}**
-
-```json
-{
-  "repository": "facebook/react",
-  "data": {
-    "dates": ["2024-01-15", "2024-01-16", "2024-01-17"],
-    "counts": [12, 8, 15]
-  }
-}
-```
-
-## ⚠️ Important Notes
-
-### GitHub API Rate Limits
-
-- **Unauthenticated requests**: 60 requests per hour per IP
-- **Authenticated requests**: 5,000 requests per hour (requires GitHub token)
-
-If you exceed the rate limit, you'll receive a 403 error. To use authenticated requests, you can modify `backend/github_api.py` to include a GitHub personal access token.
-
-### Commit Fetch Limit
-
-The application currently fetches up to **100 commits** per repository (GitHub API default). For repositories with more commits, only the most recent 100 will be analyzed.
-
-## 📁 Project Structure
-
-```
+```text
 github-repo-health-analyzer/
+├── frontend/                  # React SPA
+│   ├── src/
+│   │   ├── components/        # Reusable UI elements
+│   │   ├── charts/            # Chart.js visualization wrappers
+│   │   ├── pages/             # Route views (Dashboard, Risk, AI Analysis)
+│   │   └── api.js             # API client
 │
-├── backend/
-│   ├── main.py              # FastAPI application
-│   ├── github_api.py        # GitHub API client
-│   ├── analysis.py          # Data analysis with pandas
-│   ├── requirements.txt     # Python dependencies
-│   └── README.md            # Backend documentation
-│
-├── frontend/
-│   ├── index.html           # HTML entry point
-│   ├── package.json         # Node.js dependencies
-│   ├── vite.config.js       # Vite configuration
-│   └── src/
-│       ├── main.jsx         # React entry point
-│       ├── App.jsx          # Main app component
-│       ├── api.js           # API client
-│       ├── components/      # Reusable components
-│       └── charts/
-│           └── CommitsChart.jsx  # Chart visualization
-│
-├── .gitignore
-└── README.md                # This file
+├── backend/                   # FastAPI Backend
+│   ├── main.py                # Application entry point
+│   ├── routers/               # Thin HTTP handlers
+│   ├── models/                # Pydantic schemas
+│   ├── services/              # Core business logic & GitHub integration
+│   ├── analysis/              # Deterministic pandas analytics engine
+│   └── ai/                    # AI Integration Layer
+│       ├── providers/         # LLM SDK wrappers (Groq, NVIDIA)
+│       ├── services/          # Context building & AI orchestration
+│       ├── utils/             # Token management & prompt loading
+│       └── prompts/           # Externalized prompt templates
 ```
 
-## 🛠️ Development
+## ⚙️ Installation & Setup
 
-### Backend Development
+### Prerequisites
+* Node.js (v18+)
+* Python (3.9+)
+* GitHub Personal Access Token (for increased rate limits)
+* Groq API Key (for AI features)
 
-The backend runs with auto-reload enabled, so code changes will automatically restart the server:
+### Backend Setup
 
-```bash
-cd backend
-uvicorn main:app --reload
-```
+1. Navigate to the backend directory:
+   ```bash
+   cd backend
+   ```
+2. Create and activate a virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Configure Environment Variables:
+   Create a `.env` file in the project root:
+   ```env
+   GITHUB_TOKEN=your_github_pat_here
+   GROQ_API_KEY=your_groq_api_key_here
+   PROVIDER=groq
+   MODEL_NAME=llama3-8b-8192
+   ```
+5. Start the FastAPI server:
+   ```bash
+   uvicorn main:app --reload
+   ```
 
-### Frontend Development
+### Frontend Setup
 
-The frontend uses Vite's hot module replacement for instant updates:
+1. Navigate to the frontend directory:
+   ```bash
+   cd frontend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm start
+   ```
 
-```bash
-cd frontend
-npm run dev
-```
+## 🔌 Core API Endpoints
 
-### Building for Production
+* `GET /health` - API system health and GitHub rate-limit status.
+* `GET /repo/health/{owner}/{repo}` - Comprehensive repository health metrics.
+* `GET /risk/{owner}/{repo}` - Contributor bus factor and PR/Issue backlog risks.
+* `GET /commits/{owner}/{repo}` - Commit frequency and velocity analysis.
+* `POST /ai/summary` - Generates an AI narration based on the repository's deterministic metrics.
 
-**Backend**: No build step required, deploy with a production ASGI server
+## 🗺 Future Roadmap
 
-**Frontend**:
-```bash
-cd frontend
-npm run build
-```
-
-The production build will be in `frontend/dist/`
-
-## 🤝 Contributing
-
-Contributions are welcome! Feel free to:
-- Report bugs
-- Suggest new features
-- Submit pull requests
-
-## 📄 License
-
-This project is open source and available for educational purposes.
-
-## 🙏 Acknowledgments
-
-- GitHub REST API for providing repository data
-- FastAPI for the elegant Python web framework
-- Chart.js for beautiful data visualization
-- React and Vite for the modern frontend experience
+* **Caching Layer:** Implement Redis or in-memory TTL caching for GitHub API responses to optimize rate limit consumption.
+* **Webhooks Integration:** Support for real-time repository analysis via GitHub Webhooks.
+* **Historical Trending:** Persistent database storage (e.g., PostgreSQL) to track repository health degradation or improvement over months/years.
+* **Local LLM Fallback:** Full integration with local Ollama instances for completely private, air-gapped analysis.
 
 ---
-
-**Built with ❤️ for developers analyzing GitHub repositories**
+<p align="center">
+  Designed with a focus on scalable architecture and clean engineering principles.
+</p>
