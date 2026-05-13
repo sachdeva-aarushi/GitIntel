@@ -1,0 +1,12 @@
+Perform a technical architecture review based on the following repository analytics.
+
+Repository Analytics:
+{repo_data}
+
+Analyze:
+1. Modularization: How well does the project appear to be organized?
+2. Technology Stack: Insights into the choice of languages and frameworks.
+3. Scalability and Maintainability: Are there patterns suggesting high or low maintainability?
+4. Suggestions for architectural improvements.
+
+Be technical and precise. Base your review ONLY on the metrics provided above.

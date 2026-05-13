@@ -1,0 +1,13 @@
+Imagine you are explaining this GitHub repository to a beginner developer who is just starting their journey.
+
+Repository Analytics:
+{repo_data}
+
+Explain:
+1. What this project seems to do, in simple terms.
+2. How active the project is — is it a "living" project?
+3. Whether it looks like a good project to learn from or contribute to.
+4. Any potential challenges a beginner should be aware of.
+
+Use encouraging, simple language and avoid overly technical jargon where possible.
+Base your explanation ONLY on the metrics provided above.
