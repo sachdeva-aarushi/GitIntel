@@ -30,7 +30,6 @@ export async function fetchAISummary(owner, repo) {
  * @returns {Promise<Object>} AI answer response
  */
 export async function askRepositoryQuestion(owner, repo, question) {
-    // Assuming there is an endpoint like /ai/question
     const response = await fetch(`${API_BASE_URL}/ai/question`, {
         method: 'POST',
         headers: {

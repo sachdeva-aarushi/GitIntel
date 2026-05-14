@@ -1,5 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../components/home/Home.css';
+import HeroSection from '../components/home/HeroSection';
+import FeaturesSection from '../components/home/FeaturesSection';
+import HowItWorks from '../components/home/HowItWorks';
+import AISection from '../components/home/AISection';
+import DashboardPreview from '../components/home/DashboardPreview';
+import FinalCTA from '../components/home/FinalCTA';
+import Footer from '../components/home/Footer';
 
 function Home() {
     const [owner, setOwner] = useState('');
@@ -13,41 +21,20 @@ function Home() {
     };
 
     return (
- 
-        <div className="app-container">
-            
-            <h1 className="app-title">GitHub Repo <span>Health Analyzer</span></h1>
-            <p className="app-subtitle">
-                Analyze commit activity and health metrics for any public repository
-            </p>
-
-            <form onSubmit={handleSubmit} className="search-form">
-                <input
-                    id="owner-input"
-                    className="input-field"
-                    type="text"
-                    placeholder="Owner (e.g., facebook)"
-                    value={owner}
-                    onChange={(e) => setOwner(e.target.value)}
-                    required
-                />
-                <input
-                    id="repo-input"
-                    className="input-field"
-                    type="text"
-                    placeholder="Repo (e.g., react)"
-                    value={repo}
-                    onChange={(e) => setRepo(e.target.value)}
-                    required
-                />
-                <button
-                    id="analyze-btn"
-                    type="submit"
-                    className="btn-analyze"
-                >
-                    Analyze
-                </button>
-            </form>
+        <div className="gitintel-home">
+            <HeroSection 
+                owner={owner}
+                repo={repo}
+                setOwner={setOwner}
+                setRepo={setRepo}
+                handleSubmit={handleSubmit}
+            />
+            <FeaturesSection />
+            <HowItWorks />
+            <AISection />
+            <DashboardPreview />
+            <FinalCTA />
+            <Footer />
         </div>
     );
 }
