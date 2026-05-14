@@ -1093,3 +1093,32 @@ body {
 .ai-markdown-content p:last-child {
     margin-bottom: 0;
 }
+
+.ai-quick-prompts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-bottom: 12px;
+}
+
+.ai-quick-prompt-btn {
+    background: rgba(6, 182, 212, 0.1);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    color: #06b6d4;
+    border-radius: 12px;
+    padding: 6px 10px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+}
+
+.ai-quick-prompt-btn:hover:not(:disabled) {
+    background: rgba(6, 182, 212, 0.2);
+    border-color: #06b6d4;
+}
+
+.ai-quick-prompt-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

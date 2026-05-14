@@ -3,6 +3,14 @@ import { useSearchParams } from 'react-router-dom';
 import { fetchRepoStructure, fetchFileContent } from '../api';
 import RepoTree from '../components/repotree';
 import Navbar from '../components/Navbar';
+import AIChatPanel from '../components/ai/AIChatPanel';
+
+const structurePrompts = [
+    "Explain the repository architecture",
+    "Is the structure scalable?",
+    "What maintainability concerns exist?",
+    "How modular is this repository?"
+];
 
 function Structure() {
     const [searchParams] = useSearchParams();
@@ -75,15 +83,27 @@ function Structure() {
             )}
 
             {structure && (
-                <div className="chart-card">
-                    <RepoTree data={structure} onFileClick={handleFileClick} />
-                </div>
-            )}
+                <div className="dashboard-layout">
+                    <aside className="dashboard-ai-sidebar">
+                        <AIChatPanel 
+                            owner={owner} 
+                            repo={repo} 
+                            pageContext="Structure"
+                            quickPrompts={structurePrompts}
+                        />
+                    </aside>
+                    <main className="dashboard-main-content">
+                        <div className="chart-card">
+                            <RepoTree data={structure} onFileClick={handleFileClick} />
+                        </div>
 
-            {fileContent && (
-                <div className="chart-card">
-                    <h3 style={{ marginBottom: '12px', color: '#4ecdc4' }}>{selectedFile}</h3>
-                    <pre className="file-content-box">{fileContent}</pre>
+                        {fileContent && (
+                            <div className="chart-card" style={{ marginTop: '20px' }}>
+                                <h3 style={{ marginBottom: '12px', color: '#4ecdc4' }}>{selectedFile}</h3>
+                                <pre className="file-content-box">{fileContent}</pre>
+                            </div>
+                        )}
+                    </main>
                 </div>
             )}
         </div>

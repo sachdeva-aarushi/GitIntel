@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
 import { getRisk } from "../api";
 import Navbar from '../components/Navbar';
+import AIChatPanel from '../components/ai/AIChatPanel';
+
+const riskPrompts = [
+    "What are the biggest repository risks?",
+    "Is this project sustainable?",
+    "Explain contributor dependency",
+    "What engineering bottlenecks exist?"
+];
 import RiskBusFactorChart from "../charts/RiskBusFactorChart";
 import RiskSinglePointTable from "../charts/RiskSinglePointTable";
 import RiskPRChart from "../charts/RiskPRChart";
@@ -51,7 +59,17 @@ const Risk = () => {
         <div className="app-container">
             <Navbar owner={owner} repo={repo} />
 
-            <div className="risk-page-container" style={{ padding: 0, marginTop: '24px' }}>
+            <div className="dashboard-layout">
+                <aside className="dashboard-ai-sidebar">
+                    <AIChatPanel 
+                        owner={owner} 
+                        repo={repo} 
+                        pageContext="Risk Analysis"
+                        quickPrompts={riskPrompts}
+                    />
+                </aside>
+                <main className="dashboard-main-content">
+                    <div className="risk-page-container" style={{ padding: 0 }}>
                 <div className="risk-summary-grid">
                     <RiskCard title="Bus Factor" {...summary.bus_factor} />
                     <RiskCard title="PR Backlog" {...summary.pr_backlog} />
@@ -83,6 +101,8 @@ const Risk = () => {
                         <RiskResponsivenessChart data={data.responsiveness_detail} />
                     </div>
                 </section>
+            </div>
+                </main>
             </div>
         </div>
     );

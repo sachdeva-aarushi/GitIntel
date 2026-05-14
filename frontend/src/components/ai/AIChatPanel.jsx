@@ -3,7 +3,7 @@ import { fetchAISummary, askRepositoryQuestion } from '../../ai/aiApi';
 import AIMessage from './AIMessage';
 import AIInsightCard from './AIInsightCard';
 
-function AIChatPanel({ owner, repo }) {
+function AIChatPanel({ owner, repo, pageContext = 'Dashboard', quickPrompts = [] }) {
     const [messages, setMessages] = useState([]);
     const [summary, setSummary] = useState(null);
     const [inputValue, setInputValue] = useState('');
@@ -27,7 +27,7 @@ function AIChatPanel({ owner, repo }) {
                 const res = await fetchAISummary(owner, repo);
                 if (res && res.ai_summary) {
                     setSummary(res.ai_summary);
-                    setMessages([{ role: 'ai', content: "Hello! I've analyzed this repository. How can I help you today?" }]);
+                    setMessages([{ role: 'ai', content: `Hello! I'm ready to help you analyze the **${pageContext}** of this repository. What would you like to know?` }]);
                 }
             } catch (err) {
                 console.error("AI Summary Error:", err);
@@ -38,19 +38,20 @@ function AIChatPanel({ owner, repo }) {
         };
 
         getInitialSummary();
-    }, [owner, repo]);
+    }, [owner, repo, pageContext]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!inputValue.trim() || isTyping) return;
+    const submitMessage = async (text) => {
+        if (!text.trim() || isTyping) return;
 
-        const userMsg = inputValue.trim();
+        const userMsg = text.trim();
         setInputValue('');
         setMessages(prev => [...prev, { role: 'user', content: userMsg }]);
         setIsTyping(true);
 
         try {
-            const res = await askRepositoryQuestion(owner, repo, userMsg);
+            // Optional: prepend context to the text sent to backend if needed
+            const questionText = pageContext !== 'Dashboard' ? `[Focus: ${pageContext}] ${userMsg}` : userMsg;
+            const res = await askRepositoryQuestion(owner, repo, questionText);
             const answer = res.answer || res.response || res.ai_summary || "I'm sorry, I couldn't process that request.";
             setMessages(prev => [...prev, { role: 'ai', content: answer }]);
         } catch (err) {
@@ -61,15 +62,20 @@ function AIChatPanel({ owner, repo }) {
         }
     };
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        submitMessage(inputValue);
+    };
+
     return (
         <div className="ai-panel-container">
             <div className="ai-panel-header">
                 <div className="ai-glow-dot"></div>
-                <h3>Githeon AI</h3>
+                <h3>GitIntel AI - {pageContext}</h3>
             </div>
             
             <div className="ai-messages-area">
-                {summary && (
+                {summary && pageContext === 'Dashboard' && (
                     <AIInsightCard 
                         title="Repository Intelligence" 
                         content={summary} 
@@ -86,6 +92,20 @@ function AIChatPanel({ owner, repo }) {
             </div>
 
             <div className="ai-input-container">
+                {quickPrompts.length > 0 && (
+                    <div className="ai-quick-prompts">
+                        {quickPrompts.map((prompt, idx) => (
+                            <button 
+                                key={idx} 
+                                className="ai-quick-prompt-btn"
+                                onClick={() => submitMessage(prompt)}
+                                disabled={isTyping}
+                            >
+                                {prompt}
+                            </button>
+                        ))}
+                    </div>
+                )}
                 <form onSubmit={handleSubmit} className="ai-input-form">
                     <input
                         type="text"

@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
 import { fetchHealth } from "../api";
 import Navbar from '../components/Navbar';
+import AIChatPanel from '../components/ai/AIChatPanel';
+
+const healthPrompts = [
+    "Explain this health score",
+    "How maintainable is this repository?",
+    "What affects repository health?",
+    "How healthy is contributor activity?"
+];
 import HealthDonut from "../charts/healthdonut";
 import DimensionBars from "../charts/dimensionchart";
 import HealthTimeline from "../charts/healthtimeline";
@@ -42,13 +50,23 @@ export default function Health() {
         <div className="app-container">
         <Navbar owner={owner} repo={repo} />
 
-            {/* ===== HEADER ===== */}
-            <h1 className="app-title">
-                {owner}/{repo}
-            </h1>
+            <div className="dashboard-layout">
+                <aside className="dashboard-ai-sidebar">
+                    <AIChatPanel 
+                        owner={owner} 
+                        repo={repo} 
+                        pageContext="Health Insights"
+                        quickPrompts={healthPrompts}
+                    />
+                </aside>
+                <main className="dashboard-main-content">
+                    {/* ===== HEADER ===== */}
+                    <h1 className="app-title" style={{ textAlign: 'left' }}>
+                        {owner}/{repo}
+                    </h1>
 
-            {/* ===== BADGES ===== */}
-            <div className="badge-row">
+                    {/* ===== BADGES ===== */}
+                    <div className="badge-row">
                 <span className="badge green">● Actively Maintained</span>
                 <span className="badge green">● Safe to Use</span>
                 <span className="badge blue">
@@ -162,7 +180,8 @@ export default function Health() {
                 <h4>Maintainer Workload</h4>
                 <MaintainerWorkload data={health.workload} />
             </div>
-
+                </main>
+            </div>
         </div>
     );
 }
