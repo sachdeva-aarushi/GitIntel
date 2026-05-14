@@ -7,6 +7,7 @@ import LorenzCurveChart from '../charts/LorenzCurveChart';
 import WeekdayChart from '../charts/WeekDayChart';
 import Navbar from '../components/Navbar';
 import { fetchCommitVelocity } from "../api";
+import AIChatPanel from '../components/ai/AIChatPanel';
 import VelocityChart from "../charts/velocitycharts";
 
 
@@ -76,6 +77,11 @@ function Dashboard() {
             )}
 
             {data && (
+                <div className="dashboard-layout">
+                    <aside className="dashboard-ai-sidebar">
+                        <AIChatPanel owner={owner} repo={repo} />
+                    </aside>
+                    <main className="dashboard-main-content">
                 <div className="results-section">
                     {/* Summary metric cards */}
                     {data.data.summary && (
@@ -178,6 +184,8 @@ function Dashboard() {
                             {JSON.stringify(data, null, 2)}
                         </pre>
                     </details>
+                </div>
+                    </main>
                 </div>
             )}
         </div>
