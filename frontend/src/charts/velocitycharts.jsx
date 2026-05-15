@@ -21,7 +21,7 @@ ChartJS.register(
 
 export default function VelocityChart({ data }) {
     if (!data || !data.weeks || data.weeks.length === 0) {
-        return <p style={{ color: '#94a3b8', textAlign: 'center' }}>No velocity data available.</p>;
+        return <p style={{ color: '#9CB3CC', textAlign: 'center' }}>No velocity data available.</p>;
     }
 
     const chartData = {
@@ -32,10 +32,10 @@ export default function VelocityChart({ data }) {
                 data: data.counts,
                 tension: 0.4,
                 fill: true,
-                borderColor: "#4ecdc4",
-                backgroundColor: "rgba(78, 205, 196, 0.15)",
-                pointBackgroundColor: "#4ecdc4",
-                pointBorderColor: "#fff",
+                borderColor: "#27D3FF",
+                backgroundColor: "rgba(39, 211, 255, 0.1)",
+                pointBackgroundColor: "#27D3FF",
+                pointBorderColor: "#091525",
                 pointRadius: 4,
                 pointHoverRadius: 6,
                 borderWidth: 2,
@@ -48,27 +48,17 @@ export default function VelocityChart({ data }) {
         plugins: {
             legend: {
                 display: true,
-                labels: {
-                    color: "#e2e8f0"
-                }
+                labels: { color: "#9CB3CC" }
             }
         },
         scales: {
             x: {
-                ticks: {
-                    display: false
-                },
-                grid: {
-                    color: "rgba(255,255,255,0.05)"
-                }
+                ticks: { display: false },
+                grid: { color: "rgba(39, 211, 255, 0.06)" }
             },
             y: {
-                ticks: {
-                    color: "#94a3b8"
-                },
-                grid: {
-                    color: "rgba(255,255,255,0.05)"
-                }
+                ticks: { color: "#9CB3CC" },
+                grid: { color: "rgba(39, 211, 255, 0.06)" }
             }
         }
     };

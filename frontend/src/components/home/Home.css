@@ -75,8 +75,8 @@
 
 /* Layout Utilities */
 .gitintel-section {
-    padding: 120px 24px;
-    max-width: 1240px;
+    padding: 120px 40px;
+    max-width: 1400px;
     margin: 0 auto;
     position: relative;
     z-index: 10;
@@ -87,10 +87,11 @@
     font-size: 2.75rem;
     font-weight: 600;
     margin-bottom: 20px;
-    max-width: 800px;
+    max-width: 960px;
     margin-inline: auto;
     background: linear-gradient(180deg, #FFFFFF 0%, var(--text-muted) 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     line-height: 1.2;
 }
@@ -99,7 +100,7 @@
     text-align: center;
     color: var(--text-muted);
     font-size: 1.125rem;
-    max-width: 600px;
+    max-width: 720px;
     margin: 0 auto 80px;
     line-height: 1.6;
 }
@@ -189,7 +190,7 @@
 
 .hero-content {
     flex: 1;
-    max-width: 640px;
+    max-width: 700px;
 }
 
 .hero-headline {
@@ -198,6 +199,7 @@
     margin-bottom: 28px;
     background: linear-gradient(180deg, #FFFFFF 0%, #B8D0EB 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 600;
 }
@@ -326,8 +328,8 @@
    TRUST STRIP
    ========================================================================== */
 .trust-strip-container {
-    padding: 24px;
-    max-width: 1200px;
+    padding: 24px 40px;
+    max-width: 1400px;
     margin: 0 auto 64px;
     display: flex;
     flex-direction: column;
@@ -371,7 +373,7 @@
    ========================================================================== */
 .section-split {
     display: flex;
-    gap: 64px;
+    gap: 80px;
     align-items: flex-start;
 }
 
@@ -382,7 +384,7 @@
 }
 
 .section-intro {
-    flex: 0 0 350px;
+    flex: 0 0 400px;
 }
 
 .section-intro h2 {
@@ -431,8 +433,8 @@
 .features-grid {
     flex: 1;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 28px;
 }
 
 .feature-card {
@@ -487,7 +489,7 @@
 .steps-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    gap: 32px;
     position: relative;
     padding-top: 20px;
 }
@@ -546,12 +548,12 @@
 .ai-section {
     background: radial-gradient(circle at center, rgba(16, 34, 53, 0.8) 0%, transparent 70%);
     text-align: center;
-    padding: 160px 24px;
+    padding: 160px 40px;
     margin: 60px 0;
 }
 
 .ai-content {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
 }
 
@@ -560,6 +562,7 @@
     margin-bottom: 32px;
     background: linear-gradient(180deg, #FFFFFF 0%, var(--accent-primary) 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     line-height: 1.2;
 }
@@ -576,7 +579,7 @@
 .dashboard-preview-container {
     width: 100%;
     aspect-ratio: 16/9;
-    max-height: 600px;
+    max-height: 680px;
     background: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-deep) 100%);
     border: 1px solid var(--border-subtle);
     border-radius: 24px;
@@ -605,16 +608,18 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 120px 24px;
+    padding: 120px 40px;
     margin-top: 60px;
     background: linear-gradient(90deg, rgba(13, 20, 30, 0.8) 0%, transparent 100%);
     border-top: 1px solid var(--border-subtle);
     border-bottom: 1px solid var(--border-subtle);
+    max-width: 1400px;
+    margin-inline: auto;
 }
 
 .cta-content {
     flex: 1;
-    max-width: 500px;
+    max-width: 560px;
 }
 
 .cta-content h2 {
@@ -655,8 +660,10 @@
 @media (max-width: 1024px) {
     .hero-headline { font-size: 3.5rem; }
     .hero-section { gap: 40px; }
-    .steps-container { flex-direction: column; }
+    .steps-container { grid-template-columns: 1fr; }
     .steps-connector { display: none; }
+    .section-split { flex-direction: column; gap: 40px; }
+    .section-intro { flex: none; width: 100%; }
 }
 
 @media (max-width: 768px) {

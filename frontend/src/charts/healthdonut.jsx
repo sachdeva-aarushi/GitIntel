@@ -16,20 +16,25 @@ export default function HealthDonut({ data }) {
             {
                 data: Object.values(data),
                 backgroundColor: [
-                    "#22c55e",
-                    "#3b82f6",
-                    "#a855f7",
-                    "#f59e0b",
-                    "#06b6d4"
+                    "#27D3FF",
+                    "#53A8FF",
+                    "#1C5D7A",
+                    "#E0A94F",
+                    "#0B3046"
                 ],
-                borderWidth: 0
+                borderWidth: 2,
+                borderColor: '#091525',
             }
         ]
     };
 
     return (
         <div style={{ height: "280px" }}>
-            <Doughnut data={chartData} />
+            <Doughnut data={chartData} options={{
+                plugins: {
+                    legend: { labels: { color: '#9CB3CC', usePointStyle: true, boxWidth: 8 } },
+                },
+            }} />
         </div>
     );
 }

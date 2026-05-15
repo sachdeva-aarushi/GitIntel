@@ -1,6 +1,11 @@
 import { Bar } from "react-chartjs-2";
 import { Pie } from "react-chartjs-2";
 
+const BLUE_PALETTE = [
+    '#27D3FF', '#53A8FF', '#1C5D7A', '#0B3046', '#102033',
+    '#27D3FF', '#53A8FF', '#1C5D7A', '#0B3046', '#102033',
+];
+
 function ContributorsBarChart({ data }) {
     return (
         <Bar
@@ -10,9 +15,20 @@ function ContributorsBarChart({ data }) {
                     {
                         label: "Commits",
                         data: data.map(c => c.contributions),
-                        backgroundColor: "rgba(11, 119, 161, 0.6)"
+                        backgroundColor: "rgba(39, 211, 255, 0.6)",
+                        borderColor: "#27D3FF",
+                        borderWidth: 1,
+                        borderRadius: 4,
                     }
                 ]
+            }}
+            options={{
+                responsive: true,
+                plugins: { legend: { labels: { color: '#9CB3CC' } } },
+                scales: {
+                    x: { ticks: { color: '#9CB3CC' }, grid: { color: 'rgba(39, 211, 255, 0.06)' } },
+                    y: { ticks: { color: '#9CB3CC' }, grid: { color: 'rgba(39, 211, 255, 0.06)' } },
+                },
             }}
         />
 
@@ -27,11 +43,16 @@ function ContributorsPieChart({ data }) {
                 datasets: [
                     {
                         data: data.map(c => c.percentage),
-                        backgroundColor: data.map(() =>
-                            `hsl(${Math.random() * 360}, 70%, 60%)`
-                        )
+                        backgroundColor: BLUE_PALETTE.slice(0, data.length),
+                        borderWidth: 2,
+                        borderColor: '#091525',
                     }
                 ]
+            }}
+            options={{
+                plugins: {
+                    legend: { labels: { color: '#9CB3CC', usePointStyle: true, boxWidth: 8 } },
+                },
             }}
         />
     );

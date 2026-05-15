@@ -8,8 +8,9 @@ export default function RiskBusFactorChart({ data }) {
         labels: top.map(c => c.login),
         datasets: [{
             data: top.map(c => c.percentage),
-            backgroundColor: ["#d92b2b", "#e85f5f", "#f29d4b", "#f7c768", "#e5e7eb"],
-            borderWidth: 2
+            backgroundColor: ["#27D3FF", "#53A8FF", "#1C5D7A", "#0B3046", "#102033"],
+            borderWidth: 2,
+            borderColor: '#091525',
         }]
     };
 
@@ -29,7 +30,15 @@ export default function RiskBusFactorChart({ data }) {
 
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '24px' }}>
                 <div style={{ width: '224px', height: '224px' }}>
-                    <Doughnut data={chartData} options={{ maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 8 } } } }} />
+                    <Doughnut data={chartData} options={{
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { usePointStyle: true, boxWidth: 8, color: '#9CB3CC' }
+                            }
+                        }
+                    }} />
                 </div>
             </div>
 

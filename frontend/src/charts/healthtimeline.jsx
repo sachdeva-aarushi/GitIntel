@@ -29,12 +29,24 @@ export default function HealthTimeline({ data }) {
             {
                 label: "Commits",
                 data: values,
-                borderColor: "#3b82f6",
-                backgroundColor: "rgba(59,130,246,0.2)",
-                tension: 0.3
+                borderColor: "#53A8FF",
+                backgroundColor: "rgba(83, 168, 255, 0.1)",
+                tension: 0.3,
+                fill: true,
             }
         ]
     };
 
-    return <Line data={chartData} />;
+    const options = {
+        responsive: true,
+        plugins: {
+            legend: { labels: { color: '#9CB3CC' } },
+        },
+        scales: {
+            x: { ticks: { color: '#9CB3CC' }, grid: { color: 'rgba(39, 211, 255, 0.06)' } },
+            y: { ticks: { color: '#9CB3CC' }, grid: { color: 'rgba(39, 211, 255, 0.06)' } },
+        },
+    };
+
+    return <Line data={chartData} options={options} />;
 }

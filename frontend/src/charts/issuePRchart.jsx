@@ -26,20 +26,40 @@ export default function IssuePRChart({ data }) {
             {
                 label: "Issues Opened",
                 data: months.map(m => data.opened[m] || 0),
-                backgroundColor: "#60a5fa"
+                backgroundColor: "rgba(83, 168, 255, 0.6)",
+                borderColor: "#53A8FF",
+                borderWidth: 1,
+                borderRadius: 3,
             },
             {
                 label: "Issues Closed",
                 data: months.map(m => data.closed[m] || 0),
-                backgroundColor: "#22c55e"
+                backgroundColor: "rgba(31, 174, 122, 0.6)",
+                borderColor: "#1FAE7A",
+                borderWidth: 1,
+                borderRadius: 3,
             },
             {
                 label: "PRs Merged",
                 data: months.map(m => data.merged[m] || 0),
-                backgroundColor: "#a78bfa"
+                backgroundColor: "rgba(39, 211, 255, 0.6)",
+                borderColor: "#27D3FF",
+                borderWidth: 1,
+                borderRadius: 3,
             }
         ]
     };
 
-    return <Bar data={chartData} />;
+    const options = {
+        responsive: true,
+        plugins: {
+            legend: { labels: { color: '#9CB3CC' } },
+        },
+        scales: {
+            x: { ticks: { color: '#9CB3CC' }, grid: { color: 'rgba(39, 211, 255, 0.06)' } },
+            y: { ticks: { color: '#9CB3CC' }, grid: { color: 'rgba(39, 211, 255, 0.06)' } },
+        },
+    };
+
+    return <Bar data={chartData} options={options} />;
 }

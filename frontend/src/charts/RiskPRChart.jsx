@@ -7,11 +7,27 @@ export default function RiskPRChart({ data }) {
     const chartData = {
         labels: ["W-3", "W-2", "W-1", "Current"],
         datasets: [
-            { label: "Open PRs", data: data.trend || [data.open_prs], borderColor: "#3b82f6", backgroundColor: "rgba(59, 130, 246, 0.1)", fill: true, tension: 0.3 }
+            {
+                label: "Open PRs",
+                data: data.trend || [data.open_prs],
+                borderColor: "#53A8FF",
+                backgroundColor: "rgba(83, 168, 255, 0.1)",
+                fill: true,
+                tension: 0.3,
+            }
         ]
     };
 
     const levelColor = data.level === "HIGH" ? "red" : data.level === "MEDIUM" ? "orange" : "green";
+
+    const chartOptions = {
+        maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: '#9CB3CC' } } },
+        scales: {
+            x: { ticks: { color: '#9CB3CC' }, grid: { color: 'rgba(39, 211, 255, 0.06)' } },
+            y: { ticks: { color: '#9CB3CC' }, grid: { color: 'rgba(39, 211, 255, 0.06)' } },
+        },
+    };
 
     return (
         <div className={`risk-card border-${levelColor}`}>
@@ -26,7 +42,7 @@ export default function RiskPRChart({ data }) {
             </div>
 
             <div style={{ height: '192px', marginBottom: '24px' }}>
-                <Line data={chartData} options={{ maintainAspectRatio: false }} />
+                <Line data={chartData} options={chartOptions} />
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>

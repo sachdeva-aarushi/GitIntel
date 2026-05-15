@@ -34,10 +34,10 @@ function CommitsChart({ dates, counts, repository }) {
             {
                 label: 'Commits per Day',
                 data: counts,
-                borderColor: '#0969da',
-                backgroundColor: 'rgba(9, 105, 218, 0.1)',
-                pointBackgroundColor: '#0969da',
-                pointBorderColor: '#0969da',
+                borderColor: '#27D3FF',
+                backgroundColor: 'rgba(39, 211, 255, 0.1)',
+                pointBackgroundColor: '#27D3FF',
+                pointBorderColor: '#27D3FF',
                 tension: 0.3,
                 fill: true,
             },
@@ -49,22 +49,24 @@ function CommitsChart({ dates, counts, repository }) {
         plugins: {
             legend: {
                 position: 'top',
+                labels: { color: '#9CB3CC' },
             },
             title: {
                 display: true,
                 text: `Commit Activity — ${repository}`,
-                font: { size: 14, weight: '600' },
+                font: { size: 14, weight: '600', family: 'Sora' },
+                color: '#F4F8FF',
             },
         },
         scales: {
             x: {
-                ticks: { font: { size: 11 } },
-                grid: { color: '#eee' },
+                ticks: { font: { size: 11 }, color: '#9CB3CC' },
+                grid: { color: 'rgba(39, 211, 255, 0.06)' },
             },
             y: {
                 beginAtZero: true,
-                ticks: { stepSize: 1, font: { size: 11 } },
-                grid: { color: '#eee' },
+                ticks: { stepSize: 1, font: { size: 11 }, color: '#9CB3CC' },
+                grid: { color: 'rgba(39, 211, 255, 0.06)' },
             },
         },
     };

@@ -10,10 +10,30 @@ export default function WeekdayChart({ data }) {
             {
                 label: "Commits",
                 data: values,
-                backgroundColor: "rgba(75,192,192,0.6)"
+                backgroundColor: "rgba(39, 211, 255, 0.5)",
+                borderColor: "#27D3FF",
+                borderWidth: 1,
+                borderRadius: 4,
             }
         ]
     };
 
-    return <Bar data={chartData} />;
+    const options = {
+        responsive: true,
+        plugins: {
+            legend: { labels: { color: '#9CB3CC' } },
+        },
+        scales: {
+            x: {
+                ticks: { color: '#9CB3CC' },
+                grid: { color: 'rgba(39, 211, 255, 0.06)' },
+            },
+            y: {
+                ticks: { color: '#9CB3CC' },
+                grid: { color: 'rgba(39, 211, 255, 0.06)' },
+            },
+        },
+    };
+
+    return <Bar data={chartData} options={options} />;
 }

@@ -9,22 +9,35 @@ export default function LorenzCurveChart({ data }) {
           {
             label: "Lorenz Curve",
             data: data.map(d => d.cumulative_share),
-            borderColor: "blue",
-            fill: false,
+            borderColor: "#27D3FF",
+            backgroundColor: "rgba(39, 211, 255, 0.08)",
+            fill: true,
+            tension: 0.3,
           },
           {
             label: "Perfect Equality",
             data: data.map(d => d.cumulative_contributors_pct),
-            borderColor: "gray",
+            borderColor: "#1C5D7A",
             borderDash: [5, 5],
             fill: false,
           }
         ]
       }}
       options={{
+        plugins: {
+          legend: { labels: { color: '#9CB3CC' } },
+        },
         scales: {
-          x: { title: { display: true, text: "Cumulative % of Contributors" } },
-          y: { title: { display: true, text: "Cumulative % of Commits" } }
+          x: {
+            title: { display: true, text: "Cumulative % of Contributors", color: '#9CB3CC' },
+            ticks: { color: '#9CB3CC' },
+            grid: { color: 'rgba(39, 211, 255, 0.06)' },
+          },
+          y: {
+            title: { display: true, text: "Cumulative % of Commits", color: '#9CB3CC' },
+            ticks: { color: '#9CB3CC' },
+            grid: { color: 'rgba(39, 211, 255, 0.06)' },
+          }
         }
       }}
     />

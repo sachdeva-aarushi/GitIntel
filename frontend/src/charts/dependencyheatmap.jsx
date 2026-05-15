@@ -2,10 +2,10 @@ export default function DependencyHeatmap({ data }) {
 
     const getColor = (status) => {
         switch (status) {
-            case "current": return "#22c55e";
+            case "current": return "#1FAE7A";
             case "patch": return "#86efac";
-            case "minor": return "#f59e0b";
-            case "major": return "#ef4444";
+            case "minor": return "#E0A94F";
+            case "major": return "#E86D6D";
             default: return "#e5e7eb";
         }
     };

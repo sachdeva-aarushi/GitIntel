@@ -2,10 +2,10 @@ export default function RiskResponsivenessChart({ data }) {
     if (!data) return null;
 
     const metrics = [
-        { label: "Time to first response", val: data.first_response + "d", width: "40%", color: "#fb923c" },
-        { label: "Avg time to merge", val: data.merge_time + "d", width: "70%", color: "#fb923c" },
-        { label: "Issue close time", val: data.close_time + "d", width: "85%", color: "#ef4444" },
-        { label: "Stale PRs (>30d)", val: data.stale_prs, width: "30%", color: "#ef4444" },
+        { label: "Time to first response", val: data.first_response + "d", width: "40%", color: "#53A8FF" },
+        { label: "Avg time to merge", val: data.merge_time + "d", width: "70%", color: "#53A8FF" },
+        { label: "Issue close time", val: data.close_time + "d", width: "85%", color: "#E86D6D" },
+        { label: "Stale PRs (>30d)", val: data.stale_prs, width: "30%", color: "#E86D6D" },
     ];
 
     return (
