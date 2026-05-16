@@ -70,7 +70,7 @@ export default function Health() {
                 <span className="badge green">● Actively Maintained</span>
                 <span className="badge green">● Safe to Use</span>
                 <span className="badge blue">
-                    ● {health.summary.contributors} Contributors
+                    ● {health.summary.contributors === 100 ? '100+' : health.summary.contributors} Contributors
                 </span>
             </div>
 

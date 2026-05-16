@@ -4,8 +4,8 @@ export default function RiskResponsivenessChart({ data }) {
     const metrics = [
         { label: "Time to first response", val: data.first_response + "d", width: "40%", color: "#53A8FF" },
         { label: "Avg time to merge", val: data.merge_time + "d", width: "70%", color: "#53A8FF" },
-        { label: "Issue close time", val: data.close_time + "d", width: "85%", color: "#E86D6D" },
-        { label: "Stale PRs (>30d)", val: data.stale_prs, width: "30%", color: "#E86D6D" },
+        { label: "Issue close time", val: data.close_time + "d", width: "85%", color: "#53A8FF" },
+        { label: "Stale PRs (>30d)", val: data.stale_prs, width: "30%", color: "#1C5D7A" },
     ];
 
     return (

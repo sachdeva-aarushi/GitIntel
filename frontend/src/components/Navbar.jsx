@@ -20,12 +20,6 @@ function Navbar({ owner, repo }) {
                     Dashboard
                 </NavLink>
                 <NavLink
-                    to={`/structure${query}`}
-                    className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
-                >
-                    Structure
-                </NavLink>
-                <NavLink
                     to={`/health${query}`}
                     className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
                 >
@@ -36,6 +30,12 @@ function Navbar({ owner, repo }) {
                     className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
                 >
                     Risk
+                </NavLink>
+                <NavLink
+                    to={`/structure${query}`}
+                    className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+                >
+                    Structure
                 </NavLink>
             </div>
         </nav>

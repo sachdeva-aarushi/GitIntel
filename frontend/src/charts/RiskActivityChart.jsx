@@ -9,8 +9,8 @@ export default function RiskActivityChart({ data }) {
             {
                 label: "Commits",
                 data: [30, 25, 20, 18],
-                borderColor: "#1FAE7A",
-                backgroundColor: "rgba(31, 174, 122, 0.1)",
+                borderColor: "#27D3FF",
+                backgroundColor: "rgba(39, 211, 255, 0.1)",
                 fill: true,
                 tension: 0.3,
             }

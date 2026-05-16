@@ -30,7 +30,7 @@ export default function RiskSinglePointTable({ data }) {
                                 </div>
                                 {c.login || "Unknown"}
                             </td>
-                            <td style={{ color: '#E86D6D', fontFamily: 'monospace', fontWeight: 700 }}>
+                            <td style={{ color: 'var(--accent-primary)', fontFamily: 'monospace', fontWeight: 700 }}>
                                 {(c.percentage || 0).toFixed(1)}%
                             </td>
                             <td style={{ textAlign: 'right' }}>

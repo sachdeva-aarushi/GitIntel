@@ -19,7 +19,7 @@ export default function HealthDonut({ data }) {
                     "#27D3FF",
                     "#53A8FF",
                     "#1C5D7A",
-                    "#E0A94F",
+                    "#40C4FF",
                     "#0B3046"
                 ],
                 borderWidth: 2,
